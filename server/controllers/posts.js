@@ -11,7 +11,7 @@ export const getPosts = async (req,res)=>{
 };
 export const createPost = async (req,res)=>{
     const postRq = req.body;
-    const newPost = PostModel(postRq)
+    const newPost = PostModel(postRq);
     try {
      await newPost.save();
      res.status(201).json({message: "post creat successfully"})
@@ -22,12 +22,17 @@ export const createPost = async (req,res)=>{
 
 
 export const updatePost = async (req,res)=>{
-    const {id:_id} = req.param;
+    const {id:_id} = req.params;
     const updatedPost = req.body;
     //cheek id if it'is a mongosse object id:
-    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('post note found!');
-
-    const post = await PostModel.findByIdAndDelete(_id,updatePost,{ new: true})
+    if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`Post not found`);
+    const post = await PostModel.findByIdAndUpdate(_id,updatedPost,{ new: true})
     res.json(post)
+}
 
+export const deletePost = async (req,res) =>{
+    const {id} = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`Post not found`);
+    await PostModel.findByIdAndRemove(id);
+    res.json({ message: "Post deleted successfully." });
 }

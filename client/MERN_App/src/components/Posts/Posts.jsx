@@ -1,27 +1,25 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import Post from './Post/Post'
-import './styles.css'
-import { Grid,CircularProgress } from '@mui/material'
+import React from 'react';
+import { useSelector } from 'react-redux';
+import Post from './Post/Post';
+import './styles.css';
+import { Grid, CircularProgress } from '@mui/material';
 
-const Posts = () => {
-  const posts = useSelector((state) => state.posts);
+const Posts = ({ setCurrentID }) => {
+  const { posts } = useSelector((state) => state.posts) || {}; // Destructure and add error handling
 
-  console.log(posts)
   return (
-    !posts.length ? <CircularProgress /> : (
+    !posts ? <CircularProgress /> : (
       <Grid className='mainContainer' container alignItems="stretch" spacing={3}>
         {
           posts.map((post) =>(
             <Grid key={post?._id} item xs={12} md={6}>
-              <Post post={post}/>
+              <Post key={post?._id} post={post} setCurrentID={setCurrentID} />
             </Grid>
           ))
         }
       </Grid>
     )
-   
-  )
-}
+  );
+};
 
-export default Posts
+export default Posts;

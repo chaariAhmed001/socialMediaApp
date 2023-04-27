@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AppBar, Container, Grid, Grow, Typography } from '@mui/material';
 import Posts from './components/Posts/Posts';
 import Forms from './components/Foms/Forms';
@@ -12,8 +12,6 @@ const App = () => {
     //get All posts
     dispatch(getPosts());
   }, [dispatch])
-  
-
 
   return (
     <Container maxWidth='lg'>
