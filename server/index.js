@@ -13,7 +13,8 @@ app.use(cors());
 // add to post routes /posts ===> localhost:5000/posts/...
 app.use('/posts', postRoutes);
 
-const CONNECTION_URL="mongodb+srv://mernApp:mernApp123@cluster0.bc8nqr2.mongodb.net/?retryWrites=true&w=majority"
+const CONNECTION_URL="mongodb://0.0.0.0:27017/socialMedia";
+//"mongodb+srv://mernApp:mernApp123@cluster0.bc8nqr2.mongodb.net/?retryWrites=true&w=majority"
 const PORT = process.env.PORT || 5000 ;
   
 mongoose.set("strictQuery", false);

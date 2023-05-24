@@ -35,4 +35,21 @@ export const deletePost = async (req,res) =>{
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`Post not found`);
     await PostModel.findByIdAndRemove(id);
     res.json({ message: "Post deleted successfully." });
+}   
+
+export const addLike = async (req, res) => {
+    const {id} = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`Post not found`);
+     
+    try {
+        const post = await PostModel.findById(id);
+        if (!post) return res.status(404).send('Post not found');
+        post.likeCount ++;
+        await post.save();
+        res.json({ message: "Post liked successfully." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+  
 }

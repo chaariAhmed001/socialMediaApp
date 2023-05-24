@@ -8,13 +8,13 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useDispatch} from 'react-redux'
-import { deltePost, setCurrentPost } from '../../../actions/posts'
+import { addLike, deltePost, setCurrentPost } from '../../../actions/posts'
 
 
 const Post = ({post}) => {
   const dispatch = useDispatch();
   return (
-    <Card className='card'>
+    <Card className='card' >
       
       <CardMedia className='media' image={post?.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={post.title} />
       <div className='overlay'> 
@@ -25,14 +25,14 @@ const Post = ({post}) => {
         <Button style={{ color: 'white' }} size="small" onClick={() => dispatch(setCurrentPost(post?._id))}><MoreHorizIcon fontSize="default" /></Button>
       </div>
       <div className='details'>
-        <Typography variant="body2" color="textSecondary" component="h2">{post?.tags?.map((tag) => `#${tag} `)}</Typography>
+        <Typography variant="body2" color="textSecondary" component="h2">{post?.tags?.map((tag,index)=> <span key={index}>{'#'+tag } </span>)}</Typography>
       </div>
       <Typography className='title' gutterBottom variant="h5" component="h2">{post?.title}</Typography>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">{post?.message}</Typography>
       </CardContent>
       <CardActions className='cardActions'>
-        <Button size="small" color="primary" onClick={() =>{} }><ThumbUpAltIcon fontSize="small" /> Like {post?.likeCount} </Button>
+        <Button size="small" color="primary" onClick={() =>{dispatch(addLike(post?._id))} }><ThumbUpAltIcon fontSize="small" /> Like {post?.likeCount} </Button>
         <Button size="small" color="primary" onClick={() => {dispatch(deltePost(post?._id))}}><DeleteIcon fontSize="small" /> Delete</Button>
       </CardActions>
     </Card>

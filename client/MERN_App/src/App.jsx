@@ -1,37 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { AppBar, Container, Grid, Grow, Typography } from '@mui/material';
-import Posts from './components/Posts/Posts';
-import Forms from './components/Foms/Forms';
-import { useDispatch } from 'react-redux'
-import './App.css';
-import { getPosts } from './actions/posts';
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./components/Home/Home";
+import Login from "./components/Login/Login";
+import { Container } from "@mui/material";
+import NavBar from "./components/NavBar/NavBar";
+
 const App = () => {
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    //get All posts
-    dispatch(getPosts());
-  }, [dispatch])
-
   return (
-    <Container maxWidth='lg'>
-      <AppBar className='appBar' position='static' color='inherit'> 
-        <Typography className='heading' variant='h4' align='left'>Memories</Typography>
-      </AppBar>
-      <Grow in>
-        <Container>
-          <Grid container justifyContent='space-between' alignItems='stretch' spacing={3}>
-            <Grid item xs={12} sm={7}>
-              <Posts />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Forms />
-            </Grid>
-          </Grid>
-        </Container>
-      </Grow>
-    </Container>
-  )
-}
+    <Router>
+      <Container maxWidth="lg">
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Container>
+    </Router>
+  );
+};
 
-export default App
+export default App;
