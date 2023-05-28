@@ -39,14 +39,25 @@ export const deletePost = async (req,res) =>{
 
 export const addLike = async (req, res) => {
     const {id} = req.params;
+    // test if thee user is authenticated
+    if(!req.userId) return res.json({message: "User unauthenticated"}); 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`Post not found`);
      
     try {
         const post = await PostModel.findById(id);
         if (!post) return res.status(404).send('Post not found');
-        post.likeCount ++;
-        await post.save();
-        res.json({ message: "Post liked successfully." });
+        //cheeck if the user is liked the post 
+        const index  = await post.likes.findIndex((id)=> id === String(req.userId));
+        if(index === -1 ){
+            //like the post
+            post.likes.push(req.userId);
+        }else{
+            //dislike the post
+           post.likes=  post.likes.filter((id)=> id !== String(req.userId))
+        }
+        const updatedPost = await postMessage.findByIdAndUpdate(id,post,{new:true});
+        res.json(updatedPost);
+        
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');

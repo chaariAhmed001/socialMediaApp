@@ -1,10 +1,27 @@
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const NavBar = () => {
-  const user = null;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("userProfile")) || null
+  );
+
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/");
+    setUser(null);
+  };
+  useEffect(() => {
+    const token = user?.userToken;
+    setUser(JSON.parse(localStorage.getItem("userProfile")) || null);
+  }, [location]);
+
   return (
     <AppBar className="appBar" position="static" color="inherit">
       <Typography className="heading" variant="h4" align="left">
@@ -16,16 +33,22 @@ const NavBar = () => {
         {user ? (
           <div className="profil">
             <Avatar
-              alt={user.result.name}
-              src={user?.result?.imageUrl}
+              alt={user?.userData?.name}
+              src={user?.userData?.imageUrl}
               align="center"
+              imgProps={{ referrerPolicy: "no-referrer" }}
             >
-              {user?.result?.name.chatAt(1)}
+              {user?.userData?.name}
             </Avatar>
             <Typography className="userName" variant="h6">
-              {user.result.name}
+              {user?.userData?.name}
             </Typography>
-            <Button variant="contained" color="secondary" className="logout">
+            <Button
+              variant="contained"
+              color="secondary"
+              className="logout"
+              onClick={logout}
+            >
               Logout
             </Button>
           </div>

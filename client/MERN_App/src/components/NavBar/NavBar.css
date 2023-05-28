@@ -11,3 +11,8 @@
     margin-left: 40px !important;
   }
   
+.profil{
+  display: flex !important;
+  gap: 10px;
+  
+}

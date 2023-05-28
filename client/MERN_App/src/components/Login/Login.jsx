@@ -6,26 +6,60 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import "./Login.css";
 import { GoogleLogin } from "react-google-login";
+import { useNavigate } from "react-router-dom";
 import Icon from "./Icon";
+import { gapi } from "gapi-script";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const clientId =
+    "742219853269-0ods74i6461hvq0eab0oqrl2k6djandq.apps.googleusercontent.com";
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+  const handleChange = (e) => {
+    setFormData((formData) => ({
+      ...formData,
+      [e.target.name]: e.target.value,
+    }));
+  };
   const handleShowPassword = () => setShowPassword((prev) => !prev);
   const handleSwitch = () => {
     setIsSignUp((prev) => !prev);
   };
-
-  const responseGoogle = (response) => {
-    // Handle the response from Google login
-    console.log(response);
+  const responseGoogle = async (response) => {
+    const userData = response?.profileObj;
+    const UserToken = response?.tokenId;
+    try {
+      dispatch({ type: "LOGIN", data: { userData, UserToken } });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    gapi.load("client:auth2", () => {
+      gapi.auth2.init({ clientId: clientId });
+    });
+  }, []);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -91,7 +125,7 @@ const Login = () => {
             {isSignUp ? "Sign up" : "Sign IN"}
           </Button>
           <GoogleLogin
-            clientId="742219853269-0ods74i6461hvq0eab0oqrl2k6djandq.apps.googleusercontent.com"
+            clientId={clientId}
             buttonText="Login with Google"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
