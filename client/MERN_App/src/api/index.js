@@ -1,12 +1,22 @@
-import axios from "axios"
-const url = 'http://localhost:5000/posts';
+import axios from "axios";
 
-export const getPosts =()=>axios.get(url);
-export const creatPost =(newPost)=>axios.post(url,newPost);
-export const updatePost = (id, updatedPost) => axios.patch(`${url}/${id}`, updatedPost);
-export const deletePost = (id) => axios.delete(`${url}/${id}`);
-export const addLike = (id)=> axios.patch(`${url}/like/${id}`);
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
-const loginUrl = 'http://localhost:5000/users'
-export const signIn =(user)=>axios.post(`${loginUrl}/signIn`,user);
-export const signUp =(user)=>axios.post(`${loginUrl}/signUp`,user);
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("userProfile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("userProfile"))?.data?.token ||
+      JSON.parse(localStorage.getItem("userProfile"))?.token
+    }`;
+  }
+  return req;
+});
+
+export const getPosts = () => API.get('/posts');
+export const createPost = (newPost) => API.post('/posts', newPost);
+export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
+export const deletePost = (id) => API.delete(`/posts/${id}`);
+export const addLike = (id) => API.patch(`/posts/like/${id}`);
+
+export const signIn = (user) => API.post('/users/signIn', user);
+export const signUp = (user) => API.post('/users/signUp', user);

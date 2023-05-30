@@ -11,7 +11,7 @@ export const getPosts = async (req,res)=>{
 };
 export const createPost = async (req,res)=>{
     const postRq = req.body;
-    const newPost = PostModel(postRq);
+    const newPost = PostModel({...postRq, creator: req.userId, createdAt: new Date().toISOString()});
     try {
      await newPost.save();
      res.status(201).json({message: "post creat successfully"})
@@ -39,6 +39,7 @@ export const deletePost = async (req,res) =>{
 
 export const addLike = async (req, res) => {
     const {id} = req.params;
+    
     // test if thee user is authenticated
     if(!req.userId) return res.json({message: "User unauthenticated"}); 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`Post not found`);
@@ -47,7 +48,7 @@ export const addLike = async (req, res) => {
         const post = await PostModel.findById(id);
         if (!post) return res.status(404).send('Post not found');
         //cheeck if the user is liked the post 
-        const index  = await post.likes.findIndex((id)=> id === String(req.userId));
+        const index  = post.likes.findIndex((id)=> id === String(req.userId));
         if(index === -1 ){
             //like the post
             post.likes.push(req.userId);
@@ -55,11 +56,11 @@ export const addLike = async (req, res) => {
             //dislike the post
            post.likes=  post.likes.filter((id)=> id !== String(req.userId))
         }
-        const updatedPost = await postMessage.findByIdAndUpdate(id,post,{new:true});
+        const updatedPost = await PostModel.findByIdAndUpdate(id,post,{new:true});
         res.json(updatedPost);
         
     } catch (error) {
-        console.error(error);
+        console.log(error)
         res.status(500).send('Internal Server Error');
     }
   

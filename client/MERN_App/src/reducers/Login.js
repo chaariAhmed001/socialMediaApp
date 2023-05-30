@@ -1,18 +1,18 @@
 const initialState = {
-    userProfile: null,
-    userToken : JSON.parse(localStorage.getItem('userProfile')),
-}
+  userProfile: null,
+};
 
-const loginReducer = (state=initialState,action)=>{
-    switch (action.type) {
-        case 'LOGIN':
-            localStorage.setItem('userProfile', JSON.stringify(action?.data));
-            return {...state, profilData : action?.data }
-        case 'LOGOUT':
-            localStorage.clear();
-            return {...state, profilData : null }
-        default:
-            return state;
-    }
-}
+const loginReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'AUTH':
+      localStorage.setItem('userProfile', JSON.stringify(action.data));
+      return { ...state, userProfile: action.data };
+    case 'LOGOUT':
+      localStorage.clear();
+      return { ...state, userProfile: null };
+    default:
+      return state;
+  }
+};
+
 export default loginReducer;

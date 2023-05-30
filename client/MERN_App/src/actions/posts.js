@@ -1,12 +1,12 @@
 import * as api from "../api/index"
 
-export const getPosts =()=> async (dispatche)=>{
+export const getPosts =()=> async (dispatch)=>{
     try {
         const { data } = await api.getPosts();
-        dispatche({ type:"GETALLPOSTS", payload: data });
+        dispatch({ type:"GETALLPOSTS", payload: data });
        
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
     }
 }
 const updatePostList = (posts) => ({ type: "UPDATE_POST_LIST", payload: posts });
@@ -14,11 +14,12 @@ const updatePostList = (posts) => ({ type: "UPDATE_POST_LIST", payload: posts })
 
 export const creatPost = (post)=> async (dispatch) =>{
     try {
-        const {data} = await api.creatPost(post);
+        console.log(post);
+        const {data} = await api.createPost({...post});
         dispatch({ type: 'CREATPOST',payload: post});
-        
+        console.log(data)
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
 }
 export const updatePost = (id,post) => async(dispatch)=>{
@@ -28,7 +29,7 @@ export const updatePost = (id,post) => async(dispatch)=>{
         //dispatch(updatePostList([data]));
 
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
     }
 }
 
@@ -43,7 +44,7 @@ export const deltePost = (postID) => async(dispatch) =>{
         const { data } = await api.getPosts();
         dispatch(updatePostList(data));
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
 }
 

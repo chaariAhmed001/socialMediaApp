@@ -8,18 +8,23 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const userProfileString = localStorage.getItem("userProfile");
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("userProfile")) || null
+    userProfileString ? JSON.parse(userProfileString) : null
   );
-
   const logout = () => {
     dispatch({ type: "LOGOUT" });
-    navigate("/");
+    navigate("/login");
     setUser(null);
   };
   useEffect(() => {
-    const token = user?.userToken;
-    setUser(JSON.parse(localStorage.getItem("userProfile")) || null);
+    const token = user?.token;
+    /*if (token) {
+      const decodedToken = decodeURI(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }*/
+    const userProfileString = localStorage.getItem("userProfile");
+    setUser(userProfileString ? JSON.parse(userProfileString) : null);
   }, [location]);
 
   return (
@@ -33,15 +38,15 @@ const NavBar = () => {
         {user ? (
           <div className="profil">
             <Avatar
-              alt={user?.userData?.name}
-              src={user?.userData?.imageUrl}
+              alt={user?.data?.user?.name}
+              src={user?.data?.user?.imageUrl || user?.user?.imageUrl}
               align="center"
               imgProps={{ referrerPolicy: "no-referrer" }}
             >
-              {user?.userData?.name}
+              {user?.data?.user?.name?.slice(0, 2) || user?.user?.name}
             </Avatar>
             <Typography className="userName" variant="h6">
-              {user?.userData?.name}
+              {user?.data?.user?.name || user?.user?.name}
             </Typography>
             <Button
               variant="contained"

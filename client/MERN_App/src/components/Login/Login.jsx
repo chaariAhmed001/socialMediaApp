@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Icon from "./Icon";
 import { gapi } from "gapi-script";
 import { useDispatch } from "react-redux";
+import { userSignIn, userSignUp } from "../../actions/users";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,9 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    isSignUp
+      ? dispatch(userSignUp(formData, navigate))
+      : dispatch(userSignIn(formData, navigate));
   };
   const handleChange = (e) => {
     setFormData((formData) => ({
@@ -45,10 +48,10 @@ const Login = () => {
     setIsSignUp((prev) => !prev);
   };
   const responseGoogle = async (response) => {
-    const userData = response?.profileObj;
-    const UserToken = response?.tokenId;
+    const user = response?.profileObj;
+    const token = response?.tokenId;
     try {
-      dispatch({ type: "LOGIN", data: { userData, UserToken } });
+      dispatch({ type: "AUTH", data: { user, token } });
       navigate("/");
     } catch (error) {
       console.log(error);
