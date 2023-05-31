@@ -6,9 +6,21 @@ export const getPosts = async (req,res)=>{
         const posts = await PostModel.find();
         res.status(200).json(posts)
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: error });
     }
 };
+export const getPostsBySearch = async (req, res) => {
+    const { searchQuery, tags } = req.query;
+    console.log({ searchQuery, tags });
+    try {
+      const title = new RegExp(searchQuery, 'i');
+      const posts = await PostModel.find({ $or: [{ title: title }, { tags: { $in: tags.split(',') } }] });
+      res.json({ data: posts });
+    } catch (error) {
+      res.json({ message: error.message });
+    }
+  };
+  
 export const createPost = async (req,res)=>{
     const postRq = req.body;
     const newPost = PostModel({...postRq, creator: req.userId, createdAt: new Date().toISOString()});

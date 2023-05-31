@@ -18,11 +18,13 @@ const NavBar = () => {
     setUser(null);
   };
   useEffect(() => {
-    const token = user?.token;
-    /*if (token) {
+    const token = user?.token || user?.data?.token;
+    if (token) {
       const decodedToken = decodeURI(token);
-      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
-    }*/
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        logout();
+      }
+    }
     const userProfileString = localStorage.getItem("userProfile");
     setUser(userProfileString ? JSON.parse(userProfileString) : null);
   }, [location]);

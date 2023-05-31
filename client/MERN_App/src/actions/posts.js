@@ -2,6 +2,7 @@ import * as api from "../api/index"
 
 export const getPosts =()=> async (dispatch)=>{
     try {
+
         const { data } = await api.getPosts();
         dispatch({ type:"GETALLPOSTS", payload: data });
        
@@ -11,6 +12,15 @@ export const getPosts =()=> async (dispatch)=>{
 }
 const updatePostList = (posts) => ({ type: "UPDATE_POST_LIST", payload: posts });
 
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+    try {
+      const { data } = await api.searchPosts(searchQuery);
+      dispatch({type: 'GET_POSTS_BY_SEARCH', payload:data});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
 export const creatPost = (post)=> async (dispatch) =>{
     try {

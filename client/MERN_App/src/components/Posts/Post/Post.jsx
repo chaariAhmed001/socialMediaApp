@@ -43,7 +43,7 @@ const Post = ({ post }) => {
       <div className="overlay">
         <Typography variant="h6">{post?.name}</Typography>
         <Typography variant="body2">
-          {moment(post?.created).fromNow()}
+          {moment(post?.createdAt).fromNow()}
         </Typography>
       </div>
       <div className="overlay2">

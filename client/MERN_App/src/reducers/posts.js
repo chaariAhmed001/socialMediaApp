@@ -7,7 +7,12 @@ const initailState = {
 const postsReducer = (state=initailState, action) => {
     switch (action.type) {
         case 'GETALLPOSTS':
+          console.log(action.payload)
+
             return {...state, posts:action.payload};
+        case'GET_POSTS_BY_SEARCH': 
+        console.log(action.payload)
+          return {...state, posts:action.payload?.data}
         case 'CREATPOST':
             return { ...state, posts: [...state.posts, action.payload] };
         case 'UPDATEPOST':
