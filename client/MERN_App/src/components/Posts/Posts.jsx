@@ -5,8 +5,10 @@ import "./styles.css";
 import { Grid, CircularProgress } from "@mui/material";
 
 const Posts = ({ setCurrentID }) => {
-  const { posts } = useSelector((state) => state.posts) || {};
-  return !posts ? (
+  const { posts, isLoading } = useSelector((state) => state.posts);
+
+  if (!posts?.length && !isLoading) return "No posts found";
+  return isLoading ? (
     <CircularProgress />
   ) : (
     <Grid className="mainContainer" container alignItems="stretch" spacing={3}>

@@ -1,10 +1,11 @@
 import * as api from "../api/index"
 
-export const getPosts =()=> async (dispatch)=>{
+export const getPosts =(page)=> async (dispatch)=>{
     try {
-
-        const { data } = await api.getPosts();
+        dispatch({type:'START_LOADING'})
+        const { data } = await api.getPosts(page);
         dispatch({ type:"GETALLPOSTS", payload: data });
+        dispatch({type:'END_LOADING'})
        
     } catch (error) {
         console.log(error)
@@ -14,8 +15,10 @@ const updatePostList = (posts) => ({ type: "UPDATE_POST_LIST", payload: posts })
 
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     try {
+      dispatch({type:'START_LOADING'})
       const { data } = await api.searchPosts(searchQuery);
       dispatch({type: 'GET_POSTS_BY_SEARCH', payload:data});
+      dispatch({type:'END_LOADING'})
     } catch (error) {
       console.log(error);
     }
@@ -24,10 +27,10 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 
 export const creatPost = (post)=> async (dispatch) =>{
     try {
-        console.log(post);
         const {data} = await api.createPost({...post});
+        
         dispatch({ type: 'CREATPOST',payload: post});
-        console.log(data)
+       
     } catch (error) {
         console.log(error);
     }
@@ -51,8 +54,7 @@ export const deltePost = (postID) => async(dispatch) =>{
     try {
         await api.deletePost(postID);
         dispatch({type:'DELETEPOST',payload:postID});
-        const { data } = await api.getPosts();
-        dispatch(updatePostList(data));
+     
     } catch (error) {
         console.log(error);
     }
@@ -62,8 +64,8 @@ export const addLike = (postID) => async(dispatch) =>{
     try {
         await api.addLike(postID);
         dispatch({type:'ADDLIKE' ,payload:postID});
-        const { data } = await api.getPosts();
-        dispatch(updatePostList(data));
+        // const { data } = await api.getPosts();
+        // dispatch(updatePostList(data));
     } catch (error) {
         console.log(error)
     }

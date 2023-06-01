@@ -1,17 +1,16 @@
 const initailState = {
     posts : [],
     post:null,
+    isLoading: true,
+    
 }
 
 
 const postsReducer = (state=initailState, action) => {
     switch (action.type) {
         case 'GETALLPOSTS':
-          console.log(action.payload)
-
-            return {...state, posts:action.payload};
+            return {...state, posts:action.payload?.data, currentPage: action.payload?.currentPage, numberOfPages: action.payload?.numberOfPages};
         case'GET_POSTS_BY_SEARCH': 
-        console.log(action.payload)
           return {...state, posts:action.payload?.data}
         case 'CREATPOST':
             return { ...state, posts: [...state.posts, action.payload] };
@@ -25,7 +24,7 @@ const postsReducer = (state=initailState, action) => {
         case 'DELETEPOST': 
           return {
             ...state,
-            posts: state.posts.filter((post) => post._id !== action.payload._id),
+            posts: state.posts.filter((post) => post._id !== action.payload),
           };            
         case 'GET_SElECTED_POST': 
           return {...state, post: action.payload};
@@ -41,6 +40,10 @@ const postsReducer = (state=initailState, action) => {
                 post._id === action.payload._id ? action.payload : post
                 )
               };
+          case 'START_LOADING':
+            return { ...state, isLoading: true };
+          case 'END_LOADING':
+            return { ...state, isLoading: false };
         default:
             return state;
     }

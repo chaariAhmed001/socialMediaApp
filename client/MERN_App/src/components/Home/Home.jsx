@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   AppBar,
@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import Posts from "../Posts/Posts";
 import Forms from "../Forms/Forms";
-import { useDispatch } from "react-redux";
-import { getPosts, getPostsBySearch } from "../../actions/posts";
+import { useDispatch, useSelector } from "react-redux";
+import { getPostsBySearch } from "../../actions/posts";
 import PaginationComp from "../Pagination/PaginationComp";
 import "./Home.css";
 import ChipInput from "material-ui-chip-input";
@@ -24,16 +24,10 @@ const useQuery = () => {
 const Home = () => {
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const query = useQuery();
   const page = query.get("page") || 1;
-  const searchQuery = query.get("search") || "";
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
 
   const handleKeyPress = (e) => {
     if (e.charCode === 13) {
@@ -87,8 +81,12 @@ const Home = () => {
               <ChipInput
                 style={{ margin: "10px 0px" }}
                 value={tags}
-                onAdd={(tag) => handleAddTag(tag)}
-                onDelete={(tag) => handleDeleteTag(tag)}
+                onAdd={(tag) => {
+                  handleAddTag(tag);
+                }}
+                onDelete={(tag) => {
+                  handleDeleteTag(tag);
+                }}
                 variant="outlined"
                 label="Search Tags"
               />
@@ -104,9 +102,11 @@ const Home = () => {
             <Forms />
           </Grid>
         </Grid>
-        <Paper elevation={6}>
-          <PaginationComp />
-        </Paper>
+        {!search && !tags.length && (
+          <Paper elevation={6}>
+            <PaginationComp page={page} />
+          </Paper>
+        )}
       </Container>
     </Grow>
   );

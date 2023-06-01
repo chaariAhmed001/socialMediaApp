@@ -2,9 +2,15 @@ import mongoose from "mongoose";
 import PostModel from "../models/postModel.js";
 
 export const getPosts = async (req,res)=>{
+    const {page}= req.query;
+    console.log(page);
     try {
-        const posts = await PostModel.find();
-        res.status(200).json(posts)
+        const limit  = 6; //limit post in one page 
+        const startIndex = (Number(page) -1 )*limit;//get the start index in evrey query 
+        const total = await PostModel.countDocuments({}); //get the total number of documents 
+        const posts = await PostModel.find().sort({_id: -1 }).limit(limit).skip(startIndex);
+
+        res.status(200).json({data: posts , currentPage: Number(page), numberOfPages: Math.ceil(total/limit)});
     } catch (error) {
         res.status(404).json({ message: error });
     }
@@ -26,7 +32,7 @@ export const createPost = async (req,res)=>{
     const newPost = PostModel({...postRq, creator: req.userId, createdAt: new Date().toISOString()});
     try {
      await newPost.save();
-     res.status(201).json({message: "post creat successfully"})
+     res.status(201).json({post: newPost})
     } catch (error) {
      res.status(409).json({message: error.message})
     }
