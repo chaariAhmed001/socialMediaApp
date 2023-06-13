@@ -22,3 +22,4 @@ export const addLike = (id) => API.patch(`/posts/like/${id}`);
 
 export const signIn = (user) => API.post('/users/signIn', user);
 export const signUp = (user) => API.post('/users/signUp', user);
+export const getUser = (id) => API.get(`/users/${id}`);

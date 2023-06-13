@@ -1,11 +1,26 @@
-import { Button, Paper, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Divider,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import FileBase64 from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { creatPost, setCurrentPost, updatePost } from "../../actions/posts";
+import CloseIcon from "@mui/icons-material/Close";
 import "./styles.css";
+import { inputStyle } from "../../styleConst";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { lightGreen } from "@mui/material/colors";
 const Forms = () => {
   const dispatch = useDispatch();
+  const userProfileString = localStorage.getItem("userProfile");
+  const [user, setUser] = useState(
+    userProfileString ? JSON.parse(userProfileString) : null
+  );
   const [postData, setPostData] = useState({
     title: "",
     message: "",
@@ -19,12 +34,13 @@ const Forms = () => {
       ? state?.posts?.posts.find((post) => post._id === currentID)
       : null
   );
-  //change postDate when we select a post
+  //change postData when we select a post
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
 
   const userData = JSON.parse(localStorage.getItem("userProfile"));
+
   const handleSubmit = (e) => {
     e.preventDefault();
     currentID
@@ -41,9 +57,10 @@ const Forms = () => {
           })
         );
     clear();
+    dispatch({ type: "SET_CLOSE_MODAL" });
   };
 
-  if (!(userData?.data?.user?.name || userData?.user?.name)) {
+  /*if (!(userData?.data?.user?.name || userData?.user?.name)) {
     return (
       <Paper className="paper">
         <Typography variant="h6" align="center">
@@ -52,75 +69,131 @@ const Forms = () => {
       </Paper>
     );
   }
-
+*/
   const clear = () => {
     dispatch(setCurrentPost(null));
     setPostData({ title: "", message: "", tags: "", selectedFile: "" });
   };
+  const handelCloseModal = () => {
+    dispatch({ type: "SET_CLOSE_MODAL" });
+  };
   return (
-    <Paper className="paper">
-      <form onSubmit={handleSubmit} autoComplete="off" className="form">
-        <Typography variant="h6">
-          {currentID ? "Update" : "Creating"} a Memory
-        </Typography>
-        <TextField
-          name="title"
-          variant="outlined"
-          label="Title"
-          fullWidth
-          value={postData.title}
-          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
-        />
-        <TextField
-          name="message"
-          variant="outlined"
-          label="Message"
-          fullWidth
-          value={postData.message}
-          onChange={(e) =>
-            setPostData({ ...postData, message: e.target.value })
-          }
-        />
-        <TextField
-          name="tags"
-          variant="outlined"
-          label="Tags"
-          fullWidth
-          value={postData.tags}
-          onChange={(e) =>
-            setPostData({ ...postData, tags: e.target.value.split(/,\s*/) })
-          }
-        />
-        <div className="fileInput">
-          <FileBase64
-            type="file"
-            multiple={false}
-            onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
-            }
-          />
+    <form onSubmit={handleSubmit} autoComplete="off" className="form">
+      <div className="form_header_container">
+        <div className="form_header_content">
+          <Typography variant="h6" className="form_header_title">
+            {currentID ? "Edit your" : "Create new"} Memory
+          </Typography>
+          <IconButton
+            className="form_header_closeBtn"
+            size="small"
+            onClick={handelCloseModal}
+          >
+            <CloseIcon className="toggel" />
+          </IconButton>
         </div>
-        <Button
-          className="buttonSubmit"
-          variant="contained"
-          color="primary"
-          size="large"
-          fullWidth
-          type="submit"
-        >
-          Submit
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          fullWidth
-          onClick={clear}
-        >
-          Clear
-        </Button>
-      </form>
-    </Paper>
+
+        <Divider className="form_header_divider" light />
+      </div>
+      <div className="form_body">
+        <div className="user_profile">
+          <Avatar
+            alt={user?.data?.user?.name}
+            src={user?.data?.user?.imageUrl || user?.user?.imageUrl}
+            align="center"
+            imgProps={{ referrerPolicy: "no-referrer" }}
+            sx={{ width: 30, height: 30 }}
+          >
+            {user?.data?.user?.name?.slice(0, 2) || user?.user?.name}
+          </Avatar>
+          <p className="userName" variant="h6">
+            {user?.data?.user?.name || user?.user?.name}
+          </p>
+        </div>
+        <div className="form_inputs">
+          <TextField
+            name="title"
+            value={postData.title}
+            placeholder="Add Title ..."
+            variant="standard"
+            fullWidth
+            onChange={(e) =>
+              setPostData({ ...postData, title: e.target.value })
+            }
+            {...inputStyle}
+            style={{ marginBottom: "20px", marginTop: "20px" }}
+          />
+          <TextField
+            name="message"
+            variant="standard"
+            fullWidth
+            value={postData.message}
+            onChange={(e) =>
+              setPostData({ ...postData, message: e.target.value })
+            }
+            placeholder="Write a message"
+            multiline
+            rows={4}
+            {...inputStyle}
+            style={{ marginBottom: "20px" }}
+          />
+          <TextField
+            name="tags"
+            variant="standard"
+            fullWidth
+            value={postData.tags}
+            onChange={(e) =>
+              setPostData({ ...postData, tags: e.target.value.split(/,\s*/) })
+            }
+            placeholder="Add Tags"
+            {...inputStyle}
+            style={{ marginBottom: "20px" }}
+          />
+          <div className="fileInput">
+            {!postData?.selectedFile ? (
+              <div className="fileInput_header">
+                <AddPhotoAlternateIcon />
+                <Typography variant="h6" component="h6">
+                  Add Photos
+                </Typography>
+              </div>
+            ) : (
+              <img
+                src={postData?.selectedFile}
+                style={{ objectFit: "contain", width: "100%", height: "100%" }}
+              />
+            )}
+            <FileBase64
+              type="file"
+              multiple={false}
+              onDone={({ base64 }) =>
+                setPostData({ ...postData, selectedFile: base64 })
+              }
+            />
+          </div>
+        </div>
+      </div>
+
+      <Button
+        className="buttonSubmit"
+        variant="contained"
+        color="primary"
+        size="large"
+        fullWidth
+        type="submit"
+      >
+        Submit
+      </Button>
+      {/* <Button
+        variant="contained"
+        color="secondary"
+        size="small"
+        fullWidth
+        onClick={clear}
+      >
+        Clear
+      </Button> */}
+    </form>
   );
 };
 

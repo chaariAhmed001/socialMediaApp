@@ -1,12 +1,5 @@
 .mainContainer {
     display: flex;
     align-items: center;
-  }
-  
-  .smMargin {
-    margin: var(--theme-spacing-1);
-  }
-  
-  .actionDiv {
-    text-align: center;
+    justify-content: center;
   }

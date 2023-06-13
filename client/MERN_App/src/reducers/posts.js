@@ -2,6 +2,7 @@ const initailState = {
     posts : [],
     post:null,
     isLoading: true,
+    isOpenModal: false,
     
 }
 
@@ -44,6 +45,10 @@ const postsReducer = (state=initailState, action) => {
             return { ...state, isLoading: true };
           case 'END_LOADING':
             return { ...state, isLoading: false };
+          case 'SET_OPEN_MODAL': 
+            return {...state, isOpenModal: true};
+          case 'SET_CLOSE_MODAL': 
+            return {...state, isOpenModal: false};
         default:
             return state;
     }

@@ -1,0 +1,19 @@
+.suggestionComp_container{
+    background-color: var(--secondary_bg);
+    width: 100%;
+    height: 55vh;
+    color: white;
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+}
+.suggestion_container{
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+}
+.suggestion_profile{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}

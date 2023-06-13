@@ -1,18 +1,41 @@
 .appBar {
-  border-radius: 15px;
-  margin: 40px 0;
+  margin-bottom: 40px;
   display: flex !important;
   flex-direction: row !important;
   justify-content: space-between;
   align-items: center;
+  box-shadow: none;
+  padding: 0 24px;
 }
 .heading {
-    color: rgba(0, 183, 255, 1);
+    color: var(--primary-color);
+    font-weight: 700;
     margin-left: 40px !important;
   }
   
-.profil{
+.profil_container{
   display: flex !important;
-  gap: 10px;
-  
+  justify-content: center;
+  align-items: center;
 }
+.user_profile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.userName{
+  color: white;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggel{
+  color: var(--primary-color);
+  background-color: var(--secondary_bg);
+  padding: 8px;
+  border-radius: 50%;
+}
+

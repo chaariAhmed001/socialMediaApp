@@ -10,12 +10,14 @@ import {
   TextField,
 } from "@mui/material";
 import Posts from "../Posts/Posts";
-import Forms from "../Forms/Forms";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getPostsBySearch } from "../../actions/posts";
 import PaginationComp from "../Pagination/PaginationComp";
 import "./Home.css";
 import ChipInput from "material-ui-chip-input";
+import Home_profile from "../Home_Profil/Home_profile";
+import AdsComp from "../AdsComp/AdsComp";
+import SuggestionComp from "../SuggestionComp/SuggestionComp";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -56,7 +58,7 @@ const Home = () => {
 
   return (
     <Grow in>
-      <Container mx="xl">
+      <Container mx="xl" className="home-container">
         <Grid
           container
           justifyContent="space-between"
@@ -64,11 +66,16 @@ const Home = () => {
           spacing={3}
           className="gridContainer"
         >
-          <Grid item xs={12} sm={6} md={9}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Home_profile />
+            <AdsComp />
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
             <Posts />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppBar className="appBarSearch" position="static" color="inherit">
+            <SuggestionComp />
+            {/* <AppBar className="appBarSearch" position="static" color="inherit">
               <TextField
                 name="search"
                 variant="outlined"
@@ -98,8 +105,7 @@ const Home = () => {
               >
                 Search Post
               </Button>
-            </AppBar>
-            <Forms />
+            </AppBar> */}
           </Grid>
         </Grid>
         {!search && !tags.length && (

@@ -3,7 +3,6 @@ import PostModel from "../models/postModel.js";
 
 export const getPosts = async (req,res)=>{
     const {page}= req.query;
-    console.log(page);
     try {
         const limit  = 6; //limit post in one page 
         const startIndex = (Number(page) -1 )*limit;//get the start index in evrey query 

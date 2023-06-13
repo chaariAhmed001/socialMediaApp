@@ -10,6 +10,7 @@ import Login from "./components/Login/Login";
 import { Container } from "@mui/material";
 import NavBar from "./components/NavBar/NavBar";
 import PostDetails from "./components/PostDetails/PostDetails";
+import UserProfil from "./components/UserProfil/UserProfil";
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem("userProfile"));
@@ -26,6 +27,8 @@ const App = () => {
             path="/login"
             element={!user ? <Login /> : <Navigate to="/posts" />}
           />
+          <Route path="/profil/:id" element={<UserProfil />} />
+
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Container>
