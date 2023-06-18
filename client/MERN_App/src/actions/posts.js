@@ -27,10 +27,11 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 
 export const creatPost = (post)=> async (dispatch) =>{
     try {
+        dispatch({type:'START_LOADING'});
         const {data} = await api.createPost({...post});
-        
         dispatch({ type: 'CREATPOST',payload: post});
-       
+        dispatch({type:'END_LOADING'});
+
     } catch (error) {
         console.log(error);
     }
@@ -71,3 +72,14 @@ export const addLike = (postID) => async(dispatch) =>{
     }
 }
 
+export const getUserPosts = (userId)=> async (dispatch)=>{
+    try {
+        const userPosts =await api.getUserPosts(userId);
+      dispatch({type:'START_LOADING'})
+        dispatch({type:'GET_USER_POSTS' ,payload:userPosts.data.userPosts});
+        dispatch({type:'END_LOADING'})
+
+    } catch (error) {
+        console.log(error)
+    }
+}

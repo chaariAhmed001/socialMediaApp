@@ -2,12 +2,21 @@ import React, { useState } from "react";
 import "./Home_Profile.css";
 import { Avatar, Button, Divider, Typography } from "@mui/material";
 import Stat from "./Stat";
+import { useNavigate } from "react-router-dom";
 
 const Home_profile = () => {
   const userProfileString = localStorage.getItem("userProfile");
+  const navigate = useNavigate();
+
   const [user, setUser] = useState(
     userProfileString ? JSON.parse(userProfileString) : null
   );
+  const handleProfile = () => {
+    user &&
+      navigate(
+        `/profile?UserId=${user?.data?.user?._id || user?.user?.googleId}`
+      );
+  };
 
   return (
     <div className="Home_profile_container">
@@ -34,7 +43,11 @@ const Home_profile = () => {
           corporis harum consectetur.
         </p>
       </div>
-      <Button variant="contained" className="profile_button">
+      <Button
+        variant="contained"
+        className="profile_button"
+        onClick={handleProfile}
+      >
         My profile
       </Button>
     </div>

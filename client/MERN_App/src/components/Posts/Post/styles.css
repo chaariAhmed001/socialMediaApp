@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   border-radius: 15px;
-  margin: 0px 20px;
+  margin-left: 20px;
   background-color: var(--secondary_bg);
   padding: 20px;
 }

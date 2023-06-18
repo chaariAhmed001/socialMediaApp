@@ -1,0 +1,63 @@
+.userProfil_container{
+    color: white;
+    padding: 0px 30px;
+}
+.profile_header{
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.profile_bar{
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1440' height='250' preserveAspectRatio='none' viewBox='0 0 1440 250'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1000%26quot%3b)' fill='none'%3e%3crect width='1440' height='250' x='0' y='0' fill='%230e2a47'%3e%3c/rect%3e%3cpath d='M2 250L252 0L405 0L155 250z' fill='url(%26quot%3b%23SvgjsLinearGradient1001%26quot%3b)'%3e%3c/path%3e%3cpath d='M254.60000000000002 250L504.6 0L569.1 0L319.1 250z' fill='url(%26quot%3b%23SvgjsLinearGradient1001%26quot%3b)'%3e%3c/path%3e%3cpath d='M478.20000000000005 250L728.2 0L851.2 0L601.2 250z' fill='url(%26quot%3b%23SvgjsLinearGradient1001%26quot%3b)'%3e%3c/path%3e%3cpath d='M714.8000000000001 250L964.8000000000001 0L1141.8000000000002 0L891.8000000000001 250z' fill='url(%26quot%3b%23SvgjsLinearGradient1001%26quot%3b)'%3e%3c/path%3e%3cpath d='M1400 250L1150 0L823 0L1073 250z' fill='url(%26quot%3b%23SvgjsLinearGradient1002%26quot%3b)'%3e%3c/path%3e%3cpath d='M1166.4 250L916.4000000000001 0L778.4000000000001 0L1028.4 250z' fill='url(%26quot%3b%23SvgjsLinearGradient1002%26quot%3b)'%3e%3c/path%3e%3cpath d='M950.8 250L700.8 0L541.8 0L791.8 250z' fill='url(%26quot%3b%23SvgjsLinearGradient1002%26quot%3b)'%3e%3c/path%3e%3cpath d='M711.1999999999999 250L461.19999999999993 0L128.19999999999993 0L378.19999999999993 250z' fill='url(%26quot%3b%23SvgjsLinearGradient1002%26quot%3b)'%3e%3c/path%3e%3cpath d='M1312.1854576809665 250L1440 122.18545768096645L1440 250z' fill='url(%26quot%3b%23SvgjsLinearGradient1001%26quot%3b)'%3e%3c/path%3e%3cpath d='M0 250L127.81454231903355 250L 0 122.18545768096645z' fill='url(%26quot%3b%23SvgjsLinearGradient1002%26quot%3b)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1000'%3e%3crect width='1440' height='250' fill='white'%3e%3c/rect%3e%3c/mask%3e%3clinearGradient x1='0%25' y1='100%25' x2='100%25' y2='0%25' id='SvgjsLinearGradient1001'%3e%3cstop stop-color='rgba(15%2c 70%2c 185%2c 0.2)' offset='0'%3e%3c/stop%3e%3cstop stop-opacity='0' stop-color='rgba(15%2c 70%2c 185%2c 0.2)' offset='0.66'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='100%25' y1='100%25' x2='0%25' y2='0%25' id='SvgjsLinearGradient1002'%3e%3cstop stop-color='rgba(15%2c 70%2c 185%2c 0.2)' offset='0'%3e%3c/stop%3e%3cstop stop-opacity='0' stop-color='rgba(15%2c 70%2c 185%2c 0.2)' offset='0.66'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e");
+    background-size: cover;
+    width: 100%;
+    height: 100px;
+    border-radius: 10px;
+}
+.profile_img{
+    position: absolute;
+    top: 15%;   
+}
+.userProfil_container .Home_porfile_body{
+    margin-top: 50px;
+}
+.userProfil_container .divider{
+    width: 100%;
+    margin: auto;
+}
+.imageItem{
+   position: relative;
+}
+.imageItem:hover{
+    cursor: pointer;
+}
+.imageItem img{
+   z-index: 1;
+}
+.imageItem img:hover{
+    opacity: 0.6;
+}
+.cardHover{
+  display: none;
+  position: absolute;
+  bottom: 0;
+  top: 50%;
+  left: 30%;
+  width: 100%;
+}
+.imageItem:hover .cardHover{
+    display: block;
+    display: flex;
+}
+.likes{
+    margin-right: 50px;
+}
+.likes, .comments{
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}

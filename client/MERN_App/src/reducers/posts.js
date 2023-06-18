@@ -3,10 +3,10 @@ const initailState = {
     post:null,
     isLoading: true,
     isOpenModal: false,
-    
+    userProfile: null,
+    userPosts: [],
+    selectedPost: null,
 }
-
-
 const postsReducer = (state=initailState, action) => {
     switch (action.type) {
         case 'GETALLPOSTS':
@@ -49,6 +49,12 @@ const postsReducer = (state=initailState, action) => {
             return {...state, isOpenModal: true};
           case 'SET_CLOSE_MODAL': 
             return {...state, isOpenModal: false};
+          case 'SET_USER_PROFILE':
+            return { ...state, userProfile: action.payload };
+          case 'GET_USER_POSTS':
+            return {...state,userPosts: action.payload};
+          case 'SET_SELECTED_POST':
+            return {...state,selectedPost: action.payload,};
         default:
             return state;
     }

@@ -82,3 +82,16 @@ export const addLike = async (req, res) => {
     }
   
 }
+
+export const getUserPosts = async (req, res) => {
+    const userId = req.params.id; 
+
+    try {
+      const posts = await PostModel.find({ creator: userId }); 
+      res.json({ userPosts: posts });
+
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Internal Server Error');
+    }
+  };

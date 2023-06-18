@@ -1,10 +1,10 @@
 .modal_container{
     top: 5%;
-    left: 30%;
     transform: 'translate(-50%, -50%)' !important;
-    width: 450px;
     background-color: var(--secondary_bg) !important;
     border: '2px solid #000';
     padding: 10px 0px;
     border-radius: 10px;
+    height: 85%;
+    display: flex;
   }

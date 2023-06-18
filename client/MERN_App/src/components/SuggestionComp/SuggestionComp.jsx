@@ -14,6 +14,7 @@ const SuggestionComp = () => {
         <Suggestion />
         <Suggestion />
         <Suggestion />
+        <Suggestion />
       </div>
     </Paper>
   );

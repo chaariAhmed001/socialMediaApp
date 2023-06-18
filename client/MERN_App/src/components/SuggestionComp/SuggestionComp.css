@@ -10,7 +10,7 @@
 .suggestion_container{
     display: flex;
     align-items: center;
-    margin: 20px 0px;
+    margin: 10px 0px;
 }
 .suggestion_profile{
     display: flex;

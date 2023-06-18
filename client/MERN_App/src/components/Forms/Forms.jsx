@@ -14,7 +14,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import "./styles.css";
 import { inputStyle } from "../../styleConst";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import { lightGreen } from "@mui/material/colors";
 const Forms = () => {
   const dispatch = useDispatch();
   const userProfileString = localStorage.getItem("userProfile");

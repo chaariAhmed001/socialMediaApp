@@ -29,7 +29,12 @@ const NavBar = () => {
   const [user, setUser] = useState(
     userProfileString ? JSON.parse(userProfileString) : null
   );
-
+  const handleProfile = () => {
+    handleClose();
+    navigate(
+      `/profile?UserId=${user?.data?.user?._id || user?.user?.googleId}`
+    );
+  };
   const isOpenModal = useSelector((state) => state.isOpenModal);
 
   const logout = () => {
@@ -153,7 +158,7 @@ const NavBar = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleProfile}>
                 <Avatar
                   alt={user?.data?.user?.name}
                   src={user?.data?.user?.imageUrl || user?.user?.imageUrl}
@@ -165,16 +170,7 @@ const NavBar = () => {
                 </Avatar>{" "}
                 Profile
               </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Avatar /> My account
-              </MenuItem>
               <Divider />
-              <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                  <PersonAdd fontSize="small" sx={{ color: "white" }} />
-                </ListItemIcon>
-                Add another account
-              </MenuItem>
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
                   <Settings fontSize="small" sx={{ color: "white" }} />
