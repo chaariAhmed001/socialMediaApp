@@ -2,11 +2,13 @@ import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import React from "react";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { inputStyle } from "../../styleConst";
+
 const Input = ({
   name,
-  half,
   handleChange,
   label,
+  half,
   type,
   autoFocus,
   handleShowPassword,
@@ -17,16 +19,20 @@ const Input = ({
         name={name}
         label={label}
         onChange={handleChange}
-        variant="outlined"
-        fullWidth
+        variant="standard"
+        style={{ width: half ? "40%" : "100%" }}
         autoFocus={autoFocus}
         type={type}
+        {...inputStyle}
         InputProps={
           name === "password"
             ? {
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={handleShowPassword}>
+                    <IconButton
+                      onClick={handleShowPassword}
+                      sx={{ color: "white" }}
+                    >
                       {type === "password" ? (
                         <VisibilityOutlinedIcon />
                       ) : (

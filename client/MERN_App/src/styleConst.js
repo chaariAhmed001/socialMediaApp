@@ -19,7 +19,7 @@ const deepFreeze = (object) => {
   export const inputStyle = deepFreeze({
     InputLabelProps: {
       style: {
-        color: "#3DE", // Label color
+        color: "white", // Label color
       },
     },
     InputProps: {

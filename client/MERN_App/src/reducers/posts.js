@@ -54,7 +54,14 @@ const postsReducer = (state=initailState, action) => {
           case 'GET_USER_POSTS':
             return {...state,userPosts: action.payload};
           case 'SET_SELECTED_POST':
-            return {...state,selectedPost: action.payload,};
+            return {...state,selectedPost: action.payload};
+          case 'ADD_COMMENT':
+            return {...state,posts: state.posts.map((post)=>{
+              if(post._id === action?.payload?.postId){
+                return action.payload;
+              }
+              return post;
+            })};
         default:
             return state;
     }

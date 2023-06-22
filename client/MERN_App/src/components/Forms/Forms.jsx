@@ -15,6 +15,7 @@ import "./styles.css";
 import { inputStyle } from "../../styleConst";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 const Forms = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userProfileString = localStorage.getItem("userProfile");
   const [user, setUser] = useState(
@@ -39,36 +40,25 @@ const Forms = () => {
   }, [post]);
 
   const userData = JSON.parse(localStorage.getItem("userProfile"));
-
   const handleSubmit = (e) => {
     e.preventDefault();
     currentID
       ? dispatch(
           updatePost(currentID, {
             ...postData,
-            name: userData?.data?.user?.name || userData?.user?.name,
+            email: userData?.data?.user?.email || userData?.user?.email,
           })
         )
       : dispatch(
           creatPost({
             ...postData,
-            name: userData?.data?.user?.name || userData?.user?.name,
+            email: userData?.data?.user?.email || userData?.user?.email,
           })
         );
     clear();
     dispatch({ type: "SET_CLOSE_MODAL" });
   };
 
-  /*if (!(userData?.data?.user?.name || userData?.user?.name)) {
-    return (
-      <Paper className="paper">
-        <Typography variant="h6" align="center">
-          Please SignIn to can create a new post
-        </Typography>
-      </Paper>
-    );
-  }
-*/
   const clear = () => {
     dispatch(setCurrentPost(null));
     setPostData({ title: "", message: "", tags: "", selectedFile: "" });

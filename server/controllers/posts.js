@@ -28,7 +28,7 @@ export const getPostsBySearch = async (req, res) => {
   
 export const createPost = async (req,res)=>{
     const postRq = req.body;
-    const newPost = PostModel({...postRq, creator: req.userId, createdAt: new Date().toISOString()});
+    const newPost = PostModel({...postRq, creator: postRq.email, createdAt: new Date().toISOString()});
     try {
      await newPost.save();
      res.status(201).json({post: newPost})
@@ -84,10 +84,10 @@ export const addLike = async (req, res) => {
 }
 
 export const getUserPosts = async (req, res) => {
-    const userId = req.params.id; 
+    const email = req.params.email; 
 
     try {
-      const posts = await PostModel.find({ creator: userId }); 
+      const posts = await PostModel.find({ creator: email }); 
       res.json({ userPosts: posts });
 
     } catch (error) {
@@ -95,3 +95,18 @@ export const getUserPosts = async (req, res) => {
       res.status(500).send('Internal Server Error');
     }
   };
+
+export const commentPost = async (req,res)=>{
+    const {id} = req.params;
+    const {comment} = req.body;
+    
+    try {
+        const post = await PostModel.findById(id);
+        post.comments.push(comment);
+
+        const updatedPost = await PostModel.findByIdAndUpdate(id,post,{new: true});
+        res.json(updatedPost);
+    } catch (error) {
+        console.log(error);        
+    }
+}

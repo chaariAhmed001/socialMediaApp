@@ -6,8 +6,8 @@ import "./ModalComp.css";
 import PostDetails from "../PostDetails/PostDetails";
 const ModalComp = () => {
   const { isOpenModal, selectedPost } = useSelector((state) => state.posts);
-  console.log(selectedPost);
   const dispatch = useDispatch();
+
   const handleCloseModal = () => {
     dispatch({ type: "SET_CLOSE_MODAL" });
     dispatch({ type: "SET_SELECTED_POST", payload: null });
@@ -22,7 +22,10 @@ const ModalComp = () => {
     >
       <Box
         className="modal_container"
-        style={{ position: "absolute" }}
+        style={{
+          position: "absolute",
+          padding: selectedPost ? "0px" : "10px",
+        }}
         sx={{
           width: selectedPost ? "70%" : "450px",
           left: selectedPost ? "15%" : "30%",

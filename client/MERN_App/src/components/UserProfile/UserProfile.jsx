@@ -11,21 +11,20 @@ import {
 } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserById } from "../../actions/users";
+import { getUserByEmailAction } from "../../actions/users";
 import QuiltedImageList from "./QuiltedImageList";
 import { getUserPosts } from "../../actions/posts";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
   const [queryParameters] = useSearchParams();
-  let userId = queryParameters.get("UserId");
-  const userData = useSelector((state) => state?.login?.creator?.data);
-
+  let email = queryParameters.get("email");
+  const userData = useSelector((state) => state?.login?.user);
   useEffect(() => {
-    dispatch(getUserById(userId));
-    dispatch({ type: "SET_USER_PROFILE", payload: userId });
-    dispatch(getUserPosts(userId));
-  }, [userId]);
+    dispatch(getUserByEmailAction(email));
+    dispatch({ type: "SET_USER_PROFILE", payload: email });
+    dispatch(getUserPosts(email));
+  }, [email]);
   return (
     <Grow in>
       <Container mx="xl" className="userProfil_container">
@@ -43,7 +42,7 @@ const UserProfile = () => {
               <Typography variant="h6">{userData?.name}</Typography>
               <Typography
                 variant="h6"
-                sx={{ color: "rgba(255,255,255,0.6)", fontSize: "16px" }}
+                sx={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}
               >
                 {userData?.email}
               </Typography>

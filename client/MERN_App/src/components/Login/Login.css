@@ -1,10 +1,13 @@
 
 .paper {
-    margin-top: 20px;
+    margin: 20px 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    border-radius: 10px;
+    background-color: var(--secondary_bg);
+    color: white;
   }
   .header{
     display: flex;
@@ -15,12 +18,25 @@
     margin: 20px;
   }
   .avatar {
-    margin:  20px;
+    margin: 10px;
+  }
+  .fullName_inputs{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 15px;
   }
   .submit {
-    margin:  20px;
+    width: 90%;
+    margin: 20px 0px 20px 15px;
+    background-color: #323436;
   }
   .googleButton {
+    width: 90%;
+    margin-left: 15px;
     margin-bottom:  20px;
+    background-color: #323436;
   }
-  
+  .submit:hover, .googleButton:hover {
+    background-color: #505151;
+  }

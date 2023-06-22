@@ -15,7 +15,7 @@ export const userSignUp = (user,navigate) => async (dispatch) =>{
         dispatch({type: "AUTH" , data: data});
         navigate('/')
     } catch (error) {
-        navigate('/')
+        navigate('/Login')
         console.log(error);
     }
 }
@@ -28,3 +28,11 @@ export const getUserById = (id) =>async(dispatch)=>{
      console.log(error);   
     }
 }
+export const getUserByEmailAction = (email) => async (dispatch) => {
+    try {
+      const { data } = await api.getUserByEmail(email);
+      dispatch({ type: 'GET_USER_BY_EMAIL', payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+  };

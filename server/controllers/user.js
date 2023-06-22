@@ -21,7 +21,7 @@ export const signIn = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword } = req.body;
+  const { firstName, lastName, email, password, confirmPassword,imageUrl } = req.body;
   try {
     const userExist = await UserModel.findOne({ email });
     if (userExist) {
@@ -30,12 +30,13 @@ export const signup = async (req, res) => {
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Passwords do not match" });
     }
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await password && bcrypt.hash(password, 12);
 
     const user = new UserModel({
       name: `${firstName} ${lastName}`,
       email: email,
       password: hashedPassword,
+      imageUrl:imageUrl,
     });
     await user.save();
     const token = jwt.sign({ email: user.email, id: user._id }, 'shhhh', {
@@ -45,7 +46,7 @@ export const signup = async (req, res) => {
 
     res.status(201).json({ data: {user, token} });
   } catch (error) {
-    res.json({ message: error });
+    console.log(error)  
   }
 };
 
@@ -65,3 +66,16 @@ export const getUserById = async (req, res) => {
   }
 };
 
+export const getUserByEmail = async (req, res) => {
+  const { email } = req.params;
+  try {
+    const user = await UserModel.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.status(200).json({ data: user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.message);
+  }
+};

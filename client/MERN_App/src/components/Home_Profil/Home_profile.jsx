@@ -14,7 +14,7 @@ const Home_profile = () => {
   const handleProfile = () => {
     user &&
       navigate(
-        `/profile?UserId=${user?.data?.user?._id || user?.user?.googleId}`
+        `/profile?email=${user?.data?.user?.email || user?.user?.email}`
       );
   };
 

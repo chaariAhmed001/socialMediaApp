@@ -17,47 +17,34 @@ import moment from "moment";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useDispatch, useSelector } from "react-redux";
 import { addLike, deltePost, setCurrentPost } from "../../../actions/posts";
 import { useState } from "react";
+import { getUserByEmailAction, getUserById } from "../../../actions/users";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import EditIcon from "@mui/icons-material/Edit";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import CommentSection from "../../CommentSection/CommentSection";
-import axios from "axios";
+import { getUserByEmail } from "../../../api";
 
 const Post = ({ post }) => {
-  const [creatorData, setCreatorData] = useState(null);
-
+  const dispatch = useDispatch();
   const userData = JSON.parse(localStorage.getItem("userProfile"));
-  const connectedUser = userData?.user?.email || userData?.data?.user?.email;
   const [checkUser, setCheckUser] = useState(false);
-
+  const creatorData = useSelector((state) => state?.login?.user?.data);
   const [anchorEl, setAnchorEl] = useState(null);
   const openActionMenu = Boolean(anchorEl);
 
   const [showComments, setShowComments] = useState(false);
-
   const [likes, setLikes] = useState(post?.likes || []);
+  const userId = userData?.user?.googleId || userData?.data?.user?._id;
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/users/email/${post.creator}`
-        );
-        const userData = response.data.data;
-        setCreatorData(userData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchUserData();
-  }, [post.creator]);
-
+    setCheckUser((prev) => (prev == userId) === post?.creator);
+  }, [userData]);
   useEffect(() => {
-    setCheckUser((prev) => connectedUser === post?.creator);
-  }, [connectedUser]);
+    dispatch(getUserByEmailAction(post?.creator));
+  }, [post?.creator]);
 
   const handleUpdate = () => {
     dispatch(setCurrentPost(post?._id));
@@ -87,7 +74,6 @@ const Post = ({ post }) => {
     }
     dispatch(addLike(post?._id));
   };
-
   return (
     <Card className="card_container">
       <div className="card_header">

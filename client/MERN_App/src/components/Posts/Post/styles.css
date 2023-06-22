@@ -38,32 +38,3 @@
   color: rgba(255, 255, 255, 0.4);
   margin: 5px 0px;
 }
-.card_comments{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.card_input_container{
-  border-radius: 10px;
-  background-color: #222222;
-  padding: 16px 0px;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-}
-.card_input_container input{
-  flex:0.9;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  margin-left: 10px;
-  color: white;
-}
-.card_input_container svg{
-  color: rgba(255, 255, 255, 0.7);
-}
-.card_input_container svg:hover{
-  color: rgba(255, 255, 255);
-  cursor: pointer;
-}

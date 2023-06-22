@@ -6,6 +6,7 @@ import { Grid, CircularProgress } from "@mui/material";
 
 const Posts = ({ setCurrentID }) => {
   const { posts, isLoading } = useSelector((state) => state.posts);
+  const creatorData = useSelector((state) => state?.login?.user?.data);
 
   if (!posts?.length && !isLoading) return "No posts found";
   return isLoading ? (

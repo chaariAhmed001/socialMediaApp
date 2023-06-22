@@ -15,6 +15,10 @@ const postSchema = mongoose.Schema({
     {
         type: Date,
         default: new Date(),
+    },
+    comments:{
+        type: [{name: String, comment: String}],
+        default: [],
     }
 });
 const PostModel = mongoose.model('Posts', postSchema);

@@ -64,22 +64,31 @@ export const deltePost = (postID) => async(dispatch) =>{
 export const addLike = (postID) => async(dispatch) =>{
     try {
         await api.addLike(postID);
-        dispatch({type:'ADDLIKE' ,payload:postID});
-        // const { data } = await api.getPosts();
-        // dispatch(updatePostList(data));
+        dispatch({type:'ADDLIKE' ,payload:postID});        
     } catch (error) {
         console.log(error)
     }
 }
 
-export const getUserPosts = (userId)=> async (dispatch)=>{
+export const getUserPosts = (userEmail)=> async (dispatch)=>{
     try {
-        const userPosts =await api.getUserPosts(userId);
-      dispatch({type:'START_LOADING'})
+        const userPosts =await api.getUserPosts(userEmail);
+        dispatch({type:'START_LOADING'})
         dispatch({type:'GET_USER_POSTS' ,payload:userPosts.data.userPosts});
         dispatch({type:'END_LOADING'})
 
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const postComment =(comment,postId)=> async (dispatch)=>{
+    try {
+     const {data}=await api.comment(comment,postId);
+     dispatch({type:"ADD_COMMENT",payload:data});
+     return data?.comments
+    } catch (error) {
+        console.log(error)
+        
     }
 }

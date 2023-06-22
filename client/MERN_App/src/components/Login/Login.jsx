@@ -13,8 +13,13 @@ import { GoogleLogin } from "react-google-login";
 import { useNavigate } from "react-router-dom";
 import Icon from "./Icon";
 import { gapi } from "gapi-script";
-import { useDispatch } from "react-redux";
-import { userSignIn, userSignUp } from "../../actions/users";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getUserByEmailAction,
+  userSignIn,
+  userSignUp,
+} from "../../actions/users";
+import FileBase64 from "react-file-base64";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -27,10 +32,12 @@ const Login = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    imageUrl: "",
   });
   const clientId =
     "742219853269-0ods74i6461hvq0eab0oqrl2k6djandq.apps.googleusercontent.com";
-
+  const userTest = useSelector((state) => state?.login?.user);
+  console.log(userTest);
   const handleSubmit = (e) => {
     e.preventDefault();
     isSignUp
@@ -50,7 +57,15 @@ const Login = () => {
   const responseGoogle = async (response) => {
     const user = response?.profileObj;
     const token = response?.tokenId;
+    const newUser = {
+      firstName: user?.familyName,
+      lastName: user?.givenName,
+      email: user?.email,
+      imageUrl: user?.imageUrl,
+    };
     try {
+      dispatch(getUserByEmailAction(user?.email));
+      userTest === null && dispatch(userSignUp(newUser, navigate));
       dispatch({ type: "AUTH", data: { user, token } });
       navigate("/");
     } catch (error) {
@@ -74,9 +89,14 @@ const Login = () => {
           </Typography>
         </div>
         <form className="form" onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
+          <Grid
+            container
+            spacing={2}
+            className="form_inputs"
+            style={{ margin: "0px 10px" }}
+          >
             {isSignUp && (
-              <>
+              <div className="fullName_inputs">
                 <Input
                   name="firstName"
                   label="firstName"
@@ -89,7 +109,7 @@ const Login = () => {
                   handleChange={handleChange}
                   autoFocus
                 />
-              </>
+              </div>
             )}
             <Input
               name="email"
@@ -107,21 +127,30 @@ const Login = () => {
               autoFocus
             />
             {isSignUp && (
-              <Input
-                name="confirmPassword"
-                label="Confirm your Password"
-                handleChange={handleChange}
-                type="password"
-                handleShowPassword={handleShowPassword}
-                autoFocus
-              />
+              <>
+                <Input
+                  name="confirmPassword"
+                  label="Confirm your Password"
+                  handleChange={handleChange}
+                  type="password"
+                  handleShowPassword={handleShowPassword}
+                  autoFocus
+                />
+                <FileBase64
+                  name="imageUrl"
+                  type="file"
+                  multiple={false}
+                  onDone={({ base64 }) =>
+                    setFormData({ ...formData, imageUrl: base64 })
+                  }
+                />
+              </>
             )}
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className="submit"
           >
             {" "}
@@ -148,9 +177,9 @@ const Login = () => {
             )}
           />
 
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="center">
             <Grid item>
-              <Button onClick={handleSwitch}>
+              <Button onClick={handleSwitch} style={{ color: "#3F51B5" }}>
                 {isSignUp
                   ? "Alredy have an acount ? Sign In"
                   : "Don't have an acount? Sign Up"}

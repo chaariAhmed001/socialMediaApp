@@ -20,6 +20,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AddIcon from "@mui/icons-material/Add";
 import ModalComp from "../ModalComp/ModalComp";
+import jwtDecode from "jwt-decode";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -31,15 +32,13 @@ const NavBar = () => {
   );
   const handleProfile = () => {
     handleClose();
-    navigate(
-      `/profile?UserId=${user?.data?.user?._id || user?.user?.googleId}`
-    );
+    navigate(`/profile?email=${user?.data?.user?.email || user?.user?.email}`);
   };
   const isOpenModal = useSelector((state) => state.isOpenModal);
 
   const logout = () => {
+    navigate("/Login");
     dispatch({ type: "LOGOUT" });
-    navigate("/login");
     setUser(null);
     setAnchorEl(event.currentTarget);
   };
@@ -47,13 +46,13 @@ const NavBar = () => {
   useEffect(() => {
     const token = user?.token || user?.data?.token;
     if (token) {
-      const decodedToken = decodeURI(token);
+      const decodedToken = jwtDecode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) {
+        console.log("Token has expired.");
         logout();
       }
     }
-    const userProfileString = localStorage.getItem("userProfile");
-    setUser(userProfileString ? JSON.parse(userProfileString) : null);
+    setUser(JSON.parse(localStorage.getItem("userProfile")));
   }, [location]);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -75,11 +74,7 @@ const NavBar = () => {
     <AppBar className="appBar" position="static" color="transparent">
       <Typography className="heading" variant="h4" align="left">
         {/* logo */}
-        <Link
-          style={{ textDecoration: "none", color: "inherit" }}
-          to="/"
-          className="text-red-900 m-96"
-        >
+        <Link style={{ textDecoration: "none", color: "inherit" }} to="/">
           Memories
         </Link>
       </Typography>
