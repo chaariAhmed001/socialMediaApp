@@ -6,13 +6,18 @@ import { Grid, CircularProgress } from "@mui/material";
 
 const Posts = ({ setCurrentID }) => {
   const { posts, isLoading } = useSelector((state) => state.posts);
-  const creatorData = useSelector((state) => state?.login?.user?.data);
 
   if (!posts?.length && !isLoading) return "No posts found";
   return isLoading ? (
     <CircularProgress />
   ) : (
-    <Grid className="mainContainer" container alignItems="stretch" spacing={3}>
+    <Grid
+      className="mainContainer"
+      container
+      alignItems="stretch"
+      spacing={3}
+      sx={{ marginBottom: "40px" }}
+    >
       {posts?.map((post) => (
         <Grid key={post?._id} item xs={12}>
           <Post key={post?._id} post={post} setCurrentID={setCurrentID} />

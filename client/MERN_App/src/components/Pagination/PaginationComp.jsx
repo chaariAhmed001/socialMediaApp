@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const PaginationComp = ({ page }) => {
   const dispatch = useDispatch();
-  const { numberOfPages } = useSelector((state) => state?.posts) || {};
+  const { numberOfPages, posts } = useSelector((state) => state?.posts) || {};
 
   useEffect(() => {
     if (page) {
@@ -17,27 +17,29 @@ const PaginationComp = ({ page }) => {
   }, [dispatch, page]);
 
   return (
-    <Pagination
-      count={numberOfPages}
-      page={Number(page)}
-      variant="outlined"
-      color="primary"
-      style={{ marginTop: "40px", padding: "10px 20px" }}
-      renderItem={(item) => (
-        <PaginationItem
-          component={Link}
-          to={`/posts?page=${item.page}`}
-          {...item}
-          icon={
-            item.type === "previous" ? (
-              <ArrowBackIcon />
-            ) : item.type === "next" ? (
-              <ArrowForwardIcon />
-            ) : undefined
-          }
-        />
-      )}
-    />
+    posts?.length >= 7 && (
+      <Pagination
+        count={numberOfPages}
+        page={Number(page)}
+        variant="outlined"
+        color="primary"
+        style={{ marginTop: "40px", padding: "10px 20px" }}
+        renderItem={(item) => (
+          <PaginationItem
+            component={Link}
+            to={`/posts?page=${item.page}`}
+            {...item}
+            icon={
+              item.type === "previous" ? (
+                <ArrowBackIcon />
+              ) : item.type === "next" ? (
+                <ArrowForwardIcon />
+              ) : undefined
+            }
+          />
+        )}
+      />
+    )
   );
 };
 

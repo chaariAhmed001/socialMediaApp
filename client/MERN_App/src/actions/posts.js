@@ -3,7 +3,7 @@ import * as api from "../api/index"
 export const getPosts =(page)=> async (dispatch)=>{
     try {
         dispatch({type:'START_LOADING'})
-        const { data } = await api.getPosts(page);
+        const { data } = await api.getPosts(page ||1);
         dispatch({ type:"GETALLPOSTS", payload: data });
         dispatch({type:'END_LOADING'})
        

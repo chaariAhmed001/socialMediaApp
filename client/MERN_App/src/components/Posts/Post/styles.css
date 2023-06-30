@@ -33,6 +33,8 @@
 .card_msg{
   color: lightgray;
   text-align: justify;
+  font-family: 'Montserrat', sans-serif;
+
 }
 .card_tags{
   color: rgba(255, 255, 255, 0.4);

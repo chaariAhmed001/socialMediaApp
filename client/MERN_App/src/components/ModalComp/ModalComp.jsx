@@ -24,7 +24,7 @@ const ModalComp = () => {
         className="modal_container"
         style={{
           position: "absolute",
-          padding: selectedPost ? "0px" : "10px",
+          padding: selectedPost ? "0px" : "20px",
         }}
         sx={{
           width: selectedPost ? "70%" : "450px",

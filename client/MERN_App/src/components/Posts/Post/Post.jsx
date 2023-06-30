@@ -24,14 +24,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import CommentSection from "../../CommentSection/CommentSection";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 const Post = ({ post }) => {
+  const dispatch = useDispatch();
   const [creatorData, setCreatorData] = useState(null);
 
   const userData = JSON.parse(localStorage.getItem("userProfile"));
   const connectedUser = userData?.user?.email || userData?.data?.user?.email;
   const [checkUser, setCheckUser] = useState(false);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const openActionMenu = Boolean(anchorEl);
 
@@ -80,10 +81,12 @@ const Post = ({ post }) => {
     setShowComments((prev) => !prev);
   };
   const handelLike = () => {
-    if (likes.includes(userId)) {
-      setLikes(likes.filter((id) => id !== userId));
+    const userID = userData?.user?.googleId || userData?.data?.user?._id;
+
+    if (likes.includes(userID)) {
+      setLikes(likes.filter((id) => id !== userID));
     } else {
-      setLikes([...likes, userId]);
+      setLikes([...likes, userID]);
     }
     dispatch(addLike(post?._id));
   };

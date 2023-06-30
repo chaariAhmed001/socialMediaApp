@@ -7,10 +7,14 @@
   box-shadow: none;
   padding: 0 24px;
 }
+.navBar_left{
+  flex: 0.8;
+  display: flex;
+}
 .heading {
-    color: var(--primary-color);
-    font-weight: 700;
-    margin-left: 40px !important;
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-left: 40px !important;
   }
   
 .profil_container{

@@ -20,6 +20,7 @@ import {
   userSignUp,
 } from "../../actions/users";
 import FileBase64 from "react-file-base64";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,6 @@ const Login = () => {
   const clientId =
     "742219853269-0ods74i6461hvq0eab0oqrl2k6djandq.apps.googleusercontent.com";
   const userTest = useSelector((state) => state?.login?.user);
-  console.log(userTest);
   const handleSubmit = (e) => {
     e.preventDefault();
     isSignUp
@@ -127,15 +127,38 @@ const Login = () => {
               autoFocus
             />
             {isSignUp && (
-              <>
-                <Input
-                  name="confirmPassword"
-                  label="Confirm your Password"
-                  handleChange={handleChange}
-                  type="password"
-                  handleShowPassword={handleShowPassword}
-                  autoFocus
-                />
+              <Input
+                name="confirmPassword"
+                label="Confirm your Password"
+                handleChange={handleChange}
+                type="password"
+                handleShowPassword={handleShowPassword}
+                autoFocus
+              />
+            )}
+            {isSignUp && (
+              <div
+                className="fileInput"
+                style={{ marginLeft: "15px", marginTop: "20px" }}
+              >
+                {!formData?.imageUrl ? (
+                  <div className="fileInput_header">
+                    <AddPhotoAlternateIcon />
+
+                    <Typography variant="h6" component="h6">
+                      Add Photos
+                    </Typography>
+                  </div>
+                ) : (
+                  <img
+                    src={formData?.imageUrl}
+                    style={{
+                      objectFit: "contain",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                )}
                 <FileBase64
                   name="imageUrl"
                   type="file"
@@ -144,7 +167,7 @@ const Login = () => {
                     setFormData({ ...formData, imageUrl: base64 })
                   }
                 />
-              </>
+              </div>
             )}
           </Grid>
           <Button

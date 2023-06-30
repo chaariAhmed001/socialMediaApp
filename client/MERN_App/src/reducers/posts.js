@@ -6,6 +6,7 @@ const initailState = {
     userProfile: null,
     userPosts: [],
     selectedPost: null,
+    searchModal: false,
 }
 const postsReducer = (state=initailState, action) => {
     switch (action.type) {
@@ -57,12 +58,15 @@ const postsReducer = (state=initailState, action) => {
             return {...state,selectedPost: action.payload};
           case 'ADD_COMMENT':
             return {...state,posts: state.posts.map((post)=>{
-              if(post._id === action?.payload?.postId){
+            // Update the post with the comment
+            if(post._id === action?.payload?.postId){
                 return action.payload;
               }
               return post;
             })};
-        default:
+          case 'SET_SEARCH_MODAL': 
+            return { ...state, searchModal: !state.searchModal };
+          default:
             return state;
     }
 

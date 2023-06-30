@@ -15,7 +15,6 @@ import "./styles.css";
 import { inputStyle } from "../../styleConst";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 const Forms = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userProfileString = localStorage.getItem("userProfile");
   const [user, setUser] = useState(
